@@ -1,6 +1,8 @@
 # From timlrx/binscatter on GitHub, credit to Timothy Lin
-binscatter <- function(formula, key_var, data, bins=20, partial=FALSE){
+binscatter <- function(formula, key_var, data, bins=20, partial=FALSE, xlabel = NULL, ylabel = NULL){
   
+source('~/../repo/National-Wages/Source/Prelim.R')
+
 require(lfe)
 require(ggplot2)
 
@@ -64,12 +66,21 @@ max_y <- intercept + max_x*slope
 
 df_bin <- aggregate(df,by=list(cut(as.matrix(df[,2]),bins)), mean)
 
-ggplot(data=df, aes(x=df[,2], y=df[,1])) +
-  #geom_point(alpha=0.2) + 
-  geom_segment(aes(x = min_x, y = min_y, xend = max_x, yend = max_y),
-               color="blue", size=1) +
-  #geom_ribbon(aes(ymin=lower_ci, ymax=upper_ci),alpha=0.18) +
-  geom_point(data=df_bin, aes(x=df_bin[,3], y=df_bin[,2]), color="orange", size=2) +
-  labs(x = names(df)[2], y = names(df)[1]) +
-  theme_classic()
+# Set up x and y labels if not provided
+if (is.null(xlabel)) {
+  xlabel <- names(df)[2]
+}
+if (is.null(ylabel)) {
+  ylabel <- names(df)[1]
+}
+
+  ggplot(data=df, aes(x=df[,2], y=df[,1])) +
+    #geom_point(alpha=0.2) + 
+    geom_segment(aes(x = min_x, y = min_y, xend = max_x, yend = max_y),
+                color=cea_blue, size=1) +
+    #geom_ribbon(aes(ymin=lower_ci, ymax=upper_ci),alpha=0.18) +
+    geom_point(data=df_bin, aes(x=df_bin[,3], y=df_bin[,2]), color=cea_blue, size=2) +
+    labs(x = xlabel, y = ylabel) #+
+    #theme_classic()
+
 }
