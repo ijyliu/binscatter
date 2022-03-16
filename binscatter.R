@@ -1,4 +1,4 @@
-
+# From timlrx/binscatter on GitHub, credit to Timothy Lin
 binscatter <- function(formula, key_var, data, bins=20, partial=FALSE){
   
 require(lfe)
@@ -65,12 +65,11 @@ max_y <- intercept + max_x*slope
 df_bin <- aggregate(df,by=list(cut(as.matrix(df[,2]),bins)), mean)
 
 ggplot(data=df, aes(x=df[,2], y=df[,1])) +
-  geom_point(alpha=0.2) + 
+  #geom_point(alpha=0.2) + 
   geom_segment(aes(x = min_x, y = min_y, xend = max_x, yend = max_y),
                color="blue", size=1) +
-  geom_ribbon(aes(ymin=lower_ci, ymax=upper_ci),alpha=0.18) +
+  #geom_ribbon(aes(ymin=lower_ci, ymax=upper_ci),alpha=0.18) +
   geom_point(data=df_bin, aes(x=df_bin[,3], y=df_bin[,2]), color="orange", size=2) +
-  labs(caption = paste(" slope = ", signif(slope,2), sep=""),
-       x = names(df)[2], y = names(df)[1]) +
+  labs(x = names(df)[2], y = names(df)[1]) +
   theme_classic()
 }
