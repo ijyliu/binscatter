@@ -1,7 +1,5 @@
 # From timlrx/binscatter on GitHub, credit to Timothy Lin
 binscatter <- function(formula, key_var, data, bins=20, partial=FALSE, xlabel = NULL, ylabel = NULL){
-  
-source('~/../repo/National-Wages/Source/Prelim.R')
 
 require(lfe)
 require(ggplot2)
